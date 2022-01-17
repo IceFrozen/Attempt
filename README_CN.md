@@ -84,10 +84,9 @@ public class UserService {
     public static void main(String[] args) {
         UserService userService = new UserService();
         try {
-            
-            AttemptBuilder.retry(() -> userService.queryUser(1)).exec();  //  count = 3
+            AttemptBuilder.retry(() -> UserService.queryUserStatic(1)).exec();  //  count = 3
         } catch (RuntimeException e) {
-           // ... count > 3 之后，抛出异常
+           // ... staticCount > 3 之后，抛出异常
         }
     }
 }
@@ -95,6 +94,52 @@ public class UserService {
 ```
 
 ### 轮询策略
+
+假设有这么一个场景，你上传了一个任务，服务方并不支持异步回调或者消息队列的方式通知你任务否执行完毕，那么你需要一个轮询策略，用于知道该任务的情况。
+为了稳定性，你需要满足一下几个特点：
++ 如果查询进度的过程中失败了，那么需要为了让任务进行下去，必须要进行一个重试，比如说遇到了超时。
++ 如果超时3（重试最大次数暂定为3次）次，那么直接报错，返回失败。
++ 如果超时没有超过3次（重试最大次数暂定为3次）在重试期间，网络恢复了，那么要要清除重试3次的历史，否则下次遇到超时的时候就会失败。
+
+![](docs/Attempt.png)
+
+如上图所示，Attempt 设置了轮询策略，当使用轮询策略的时候，在轮询期间会如果轮询过程中，出现异常，则会进入重试阶段。
+在重试阶段会累计重试次数，如果重试成功，则会继续进入轮询阶段，并且清空重试阶段的重试次数。
+
+样例如下：
+
+```java
+public class TaskService { 
+  public List<Integer> history = new ArrayList<>();
+  public Integer nowProgress = 0;
+  // 需要抛出错误的 Progress
+  public List<Integer> errorThrowOrder = new ArrayList<>();
+
+
+
+  public Integer queryProgress () {
+        nowProgress +=10;
+        if(errorThrowOrder.contains(nowProgress)) {
+           throw new RunntionException();
+        }
+
+
+        return nowProgress;
+    }
+    
+}
+
+
+      
+
+
+
+
+
+
+```
+
+
 
 
 

@@ -1,7 +1,5 @@
 package com.github.IceFrozen.attempt.invoker;
 
-
-
 import com.github.IceFrozen.attempt.strategy.RetryAttemptStrategy;
 
 import java.util.function.Supplier;

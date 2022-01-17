@@ -87,10 +87,9 @@ public class UserService {
     public static void main(String[] args) {
         UserService userService = new UserService();
         try {
-            
-            AttemptBuilder.retry(() -> userService.queryUser(1)).exec();  //  count = 3
+            AttemptBuilder.retry(() -> UserService.queryUserStatic(1)).exec(); 
         } catch (RuntimeException e) {
-           // ... count > 3 then throw exception
+           // ... staticCount > 3 then throw exception
         }
     }
 }
