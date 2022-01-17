@@ -20,6 +20,7 @@ import java.util.function.Function;
 @SuppressWarnings("unchecked")
 public abstract class BaseAttemptPropertyViewer<T extends BaseAttemptPropertyViewer<?>> {
     private int retryMax = 3;
+    private int maxPollCount = -1;
     private String name;
 
     private final Map<Class<? extends Throwable>, Integer> exceptionRecord = new HashMap<>();
@@ -97,6 +98,16 @@ public abstract class BaseAttemptPropertyViewer<T extends BaseAttemptPropertyVie
 
     public T retryMax(int retryMax) {
         this.retryMax = retryMax;
+        return (T) this;
+    }
+
+    public int maxPollCount() {
+        return maxPollCount;
+    }
+
+
+    public T maxPollCount(int maxPollCount) {
+        this.maxPollCount = maxPollCount;
         return (T) this;
     }
 
