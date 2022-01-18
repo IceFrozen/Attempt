@@ -9,7 +9,6 @@ public class SneakyExceptionUtil {
         }
         return SneakyExceptionUtil.sneakyThrow0(t);
     }
-
     public static Throwable originExceptionUnWrapper(Throwable t) {
         while (t instanceof OriginExceptionWrapper) {
             t = ((OriginExceptionWrapper) t).getOriginException();
@@ -18,6 +17,6 @@ public class SneakyExceptionUtil {
     }
 
     private static <T extends Throwable> T sneakyThrow0(Throwable t) throws T {
-        throw (T) t;
+        throw  (T) t;
     }
 }

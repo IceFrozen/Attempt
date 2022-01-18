@@ -1,18 +1,19 @@
 package com.github.IceFrozen.attempt.invoker;
 
 import com.github.IceFrozen.attempt.*;
+import com.github.IceFrozen.attempt.exception.SneakyExceptionUtil;
 import com.github.IceFrozen.attempt.listeners.InvokeListener;
 import com.github.IceFrozen.attempt.proxy.TargetMethod;
 
 import java.util.function.Supplier;
 
 public class AttemptInvoker<T> extends BaseAttemptPropertyViewer<AttemptInvoker<T>> implements Invoker<T>, InvokeListener {
-    private Supplier<T> action;
-    Attempt<Supplier<T>> attempt;
+    private ThrowSafetyFunctionInvoker<T> action;
+    Attempt<ThrowSafetyFunctionInvoker<T>> attempt;
     // 结果缓存器
     AttemptResultContainer container;
 
-    public AttemptInvoker(Supplier<T> action) {
+    public AttemptInvoker(ThrowSafetyFunctionInvoker<T> action) {
         this.action = action;
         super.retryMax(1);
         container = new AttemptResultContainer(super.retryMax() == -1 ? 1000 : super.retryMax());
@@ -20,14 +21,17 @@ public class AttemptInvoker<T> extends BaseAttemptPropertyViewer<AttemptInvoker<
 
     public T exec() {
         try {
-            Attempt<Supplier<T>> attempt = this.getAttempt();
-            return attempt.getProxyObject().get();
-        } catch (Exception e) {
+            Attempt<ThrowSafetyFunctionInvoker<T>> attempt = this.getAttempt();
+            ThrowSafetyFunctionInvoker<T> proxyObject = attempt.getProxyObject();
+            return ThrowSafetyFunctionInvoker.invoke(proxyObject);
+        } catch (Throwable e) {
             if (this.defaultValue() != null) {
                 return (T) this.defaultValue().getRetValue();
+            } else {
+                SneakyExceptionUtil.sneakyThrow(e);
             }
-            throw e;
         }
+        return null;
     }
 
     public T exec(T defaultValue) {
@@ -35,7 +39,7 @@ public class AttemptInvoker<T> extends BaseAttemptPropertyViewer<AttemptInvoker<
         return exec();
     }
 
-    public Attempt<Supplier<T>> getAttempt() {
+    public Attempt<ThrowSafetyFunctionInvoker<T>> getAttempt() {
         if (this.attempt == null) {
             this.addListener(this);
             AttemptExecutor executor = AttemptBuilderFactory.generateExecutor(this);

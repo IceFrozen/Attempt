@@ -2,6 +2,8 @@ package com.github.IceFrozen.attempt;
 
 import com.github.IceFrozen.attempt.invoker.PollingAttemptInvoker;
 import com.github.IceFrozen.attempt.invoker.RetryAttemptInvoker;
+import com.github.IceFrozen.attempt.invoker.ThrowSafetyFunctionInvokerRunner;
+import com.github.IceFrozen.attempt.invoker.ThrowSafetyFunctionInvokerSupplier;
 import com.github.IceFrozen.attempt.strategy.PollingAttemptStrategy;
 import com.github.IceFrozen.attempt.strategy.RetryAttemptStrategy;
 
@@ -85,27 +87,19 @@ public class AttemptBuilder {
         }
     }
 
-
-    //TODO
-    public static <T> RetryAttemptInvoker<T> retry(Supplier<T> supplier) {
-        return new RetryAttemptInvoker<>(supplier);
+    public static <T> RetryAttemptInvoker<T> retry(ThrowSafetyFunctionInvokerSupplier<T> supplier) {
+        return new RetryAttemptInvoker<T>(supplier);
     }
 
-    public static <Void> RetryAttemptInvoker<Void> retry(Runnable runnable) {
-        return new RetryAttemptInvoker<>(() -> {
-            runnable.run();
-            return null;
-        });
+    public static <Void> RetryAttemptInvoker<Void> retry(ThrowSafetyFunctionInvokerRunner<Void> runnable) {
+        return new RetryAttemptInvoker<Void>(runnable);
     }
 
-    public static <T> PollingAttemptInvoker<T> polling(Supplier<T> supplier) {
-        return new PollingAttemptInvoker<>(supplier);
+    public static <T> PollingAttemptInvoker<T> polling(ThrowSafetyFunctionInvokerSupplier<T> supplier) {
+        return new PollingAttemptInvoker<T>(supplier);
     }
 
-    public static <T> PollingAttemptInvoker<T> polling(Runnable runnable) {
-        return new PollingAttemptInvoker<>(() -> {
-            runnable.run();
-            return null;
-        });
+    public static <Void> PollingAttemptInvoker<Void> polling(ThrowSafetyFunctionInvokerRunner<Void> runnable) {
+        return new PollingAttemptInvoker<Void>(runnable);
     }
 }

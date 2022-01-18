@@ -27,4 +27,18 @@ public class AttemptInvokerTest {
         }
     }
 
+    @Test
+    public void testSneakyExceptionInvoke() {
+
+        try {
+            AttemptBuilder.retry(StaticMethodThrowExceptionBean::throwException).exec();
+        } catch (Exception e) {
+            Assert.assertSame("StaticMethodThrowExceptionBean's throwException", e.getMessage());
+        }
+        try {
+            AttemptBuilder.polling(StaticMethodThrowExceptionBean::throwException).exec();
+        } catch (Exception e) {
+            Assert.assertSame("StaticMethodThrowExceptionBean's throwException", e.getMessage());
+        }
+    }
 }
