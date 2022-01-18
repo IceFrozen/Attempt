@@ -2,6 +2,7 @@ package com.github.IceFrozen.attempt;
 import com.github.IceFrozen.attempt.backofpolicy.FixedSleepingBackOffPolicy;
 import com.github.IceFrozen.attempt.backofpolicy.NoBackOffPolicy;
 import com.github.IceFrozen.attempt.invoker.RetryAttemptInvoker;
+import com.github.IceFrozen.attempt.invoker.ThrowSafetyFunctionInvoker;
 import com.github.IceFrozen.attempt.listeners.ExecutorListener;
 import com.github.IceFrozen.attempt.listeners.InvokeListener;
 import com.github.IceFrozen.attempt.proxy.TargetMethod;
@@ -13,9 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-
 import java.lang.reflect.Field;
-import java.util.function.Supplier;
 
 public class AttemptRetryTest {
 
@@ -363,7 +362,7 @@ public class AttemptRetryTest {
                 return fileStatic;
             });
             // 获得 attempt
-            Attempt<Supplier<Integer>> attempt = attemptRetryInvoker.getAttempt();
+            Attempt<ThrowSafetyFunctionInvoker<Integer>> attempt = attemptRetryInvoker.getAttempt();
             attemptRetryInvoker.exec();
 
         } catch (Exception e) {
