@@ -194,7 +194,7 @@ JMH对比了 SpringRetry 和 Attempt的性能，代码参见[这里](src/test/ja
 
 Benchmark         |                                  Mode  |Cnt      |Score      |Error  |Units
 ---|---|---|---|---|---
-IceFrozen.jmh.AttemptVsSpringRetry.testAttempt   |   avgt  | 10  |  210.878 ±  | 47.971  ns/op
+IceFrozen.jmh.AttemptVsSpringRetry.testAttempt   |   avgt  | 10  |  210.878 ±  | 47.971 |  ns/op
 IceFrozen.jmh.AttemptVsSpringRetry.testSpringRetry|  avgt  | 10 | 17541.783 ± |1162.467 | ns/op
 
 ![](docs/JMH.png)
