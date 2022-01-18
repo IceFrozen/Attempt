@@ -7,8 +7,6 @@ import com.github.IceFrozen.attempt.invoker.ThrowSafetyFunctionInvokerSupplier;
 import com.github.IceFrozen.attempt.strategy.PollingAttemptStrategy;
 import com.github.IceFrozen.attempt.strategy.RetryAttemptStrategy;
 
-import java.util.function.Supplier;
-
 /**
  * AttemptBuilder builds the builder of Attempt
  *
@@ -35,7 +33,7 @@ public class AttemptBuilder {
         }
 
         public T build() {
-            if (this.endPointTry() == null) {
+            if (this.endPoint() == null) {
                 throw new AttemptException("Polling must set endpoint!");
             }
 

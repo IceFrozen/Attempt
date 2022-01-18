@@ -1,5 +1,8 @@
 package com.github.IceFrozen.attempt;
 
+import com.github.IceFrozen.attempt.util.Convert;
+import sun.tools.asm.Cover;
+
 /**
  * 请求记录
  */
@@ -39,6 +42,10 @@ public class AttemptResult {
 
     public Object getRetValue() {
         return retValue;
+    }
+
+    public <T> T getRetValue(Class<T> type) {
+        return Convert.valueToType(this.retValue, type);
     }
 
     public void setRetValue(Object retValue) {

@@ -39,7 +39,7 @@ public class PollingAttemptStrategy extends RetryAttemptStrategy {
             return false;
         }
         // 如果请求正常，由是期望的结果，则直接退出返回
-        boolean expect = properties.endPointTry().apply(context);
+        boolean expect = properties.endPoint().apply(context);
         // 如果成功，则清空错误历史
         context.reset();
         if (expect) {

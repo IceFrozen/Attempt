@@ -72,12 +72,12 @@ public abstract class BaseAttemptPropertyViewer<T extends BaseAttemptPropertyVie
         return (T) this;
     }
 
-    public T endPointTry(Function<AttemptContext, Boolean> endPointTry) {
-        this.endPointTry = endPointTry;
+    public T endPoint(Function<AttemptContext, Boolean> endPoint) {
+        this.endPointTry = endPoint;
         return (T) this;
     }
 
-    public Function<AttemptContext, Boolean> endPointTry() {
+    public Function<AttemptContext, Boolean> endPoint() {
         return this.endPointTry;
     }
 

@@ -60,7 +60,7 @@ public class AttemptExecutor implements MethodInterceptor {
     }
 
 
-    private Object handleResult(AttemptResult result, Throwable attemptException) {
+    private Object handleResult(AttemptResult result, Throwable throwableException) {
         try {
             if (result != null && result.isSuccess()) {
                 return result.getRetValue();
@@ -69,7 +69,7 @@ public class AttemptExecutor implements MethodInterceptor {
                 return this.defaultValue.getRetValue();
             }
 
-            Throwable lastThrowable = attemptException != null ? attemptException : result.getCatchThrow();
+            Throwable lastThrowable = throwableException != null ? throwableException : result.getCatchThrow();
             SneakyExceptionUtil.sneakyThrow(lastThrowable);
             return null;
         } finally {

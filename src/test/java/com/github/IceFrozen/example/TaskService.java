@@ -16,8 +16,6 @@ public class TaskService {
     // 需要抛出错误的 Progress
     public List<Integer> errorThrowOrder = new ArrayList<>();
 
-
-
     public Integer queryProgress () {
         history.add(nowProgress);
         if(errorThrowOrder.contains(queryProgressCount)) {
@@ -31,14 +29,13 @@ public class TaskService {
 
     public static void main(String[] args) {
         TaskService taskService = new TaskService();
-        // 2 3 3 count will
+        // 2 3 3 count will throw RuntimeException
         taskService.errorThrowOrder = Stream.of(2, 3, 4).collect(Collectors.toList());
-
-        // 构建重试策略
+        // poll builder
         AttemptBuilder.Polling<TaskService> taskServicePollBuilder = new AttemptBuilder.Polling<>(taskService);
-        // 其他跟retry 类似的配置
+        // set end point
         // 设置轮询停止条件
-        TaskService taskServicePoll = taskServicePollBuilder.endPointTry(context -> {
+        TaskService taskServicePoll = taskServicePollBuilder.endPoint(context -> {
             // 获取上次结果
             AttemptResult result = context.getLastResult();
             if (result.isSuccess()) {
@@ -51,6 +48,11 @@ public class TaskService {
                 .retryMax(3)      // retry max
                 .registerExceptionRetryTime(RuntimeException.class, 3)
                 .build();
+
+
+        Integer integer = taskServicePoll.queryProgress();
+        System.out.println(integer);
+        System.out.println(taskService.queryProgressCount);
 
     }
 

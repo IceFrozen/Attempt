@@ -29,7 +29,7 @@ public class AttemptPollingTest {
         // 构建重试代理
         AttemptBuilder.Polling<ProxyDemo2> pollingBuilder = new AttemptBuilder.Polling<>(proxyDemo2);
         ProxyDemo2 proxy = pollingBuilder
-                .endPointTry((context -> {
+                .endPoint((context -> {
                     AttemptResult lastResult = context.getLastResult();
                     Integer retValue = (Integer) lastResult.getRetValue();
                     return retValue == 3;
@@ -53,7 +53,7 @@ public class AttemptPollingTest {
         // 构建重试代理
         AttemptBuilder.Polling<ProxyDemo2> pollingBuilder = new AttemptBuilder.Polling<>(proxyDemo2);
         ProxyDemo2 proxy = pollingBuilder
-                .endPointTry((context -> {
+                .endPoint((context -> {
                     AttemptResult lastResult = context.getLastResult();
                     Integer retValue = (Integer) lastResult.getRetValue();
                     return retValue == 100;
@@ -76,7 +76,7 @@ public class AttemptPollingTest {
         // 构建重试代理
         AttemptBuilder.Polling<ProxyDemo2> pollingBuilder = new AttemptBuilder.Polling<>(proxyDemo2);
         ProxyDemo2 proxy = pollingBuilder
-                .endPointTry((context -> {
+                .endPoint((context -> {
                     AttemptResult lastResult = context.getLastResult();
                     Integer retValue = (Integer) lastResult.getRetValue();
                     return retValue == 100;
@@ -101,7 +101,7 @@ public class AttemptPollingTest {
         // 创建需要重试的对象
         ProxyDemo2 proxyDemo2 = new ProxyDemo2();
         // 构建重试代理
-        Integer exec = AttemptBuilder.polling(() -> proxyDemo2.plusStaticCount()).endPointTry((context -> {
+        Integer exec = AttemptBuilder.polling(() -> proxyDemo2.plusStaticCount()).endPoint((context -> {
             AttemptResult lastResult = context.getLastResult();
             Integer retValue = (Integer) lastResult.getRetValue();
             return retValue == 3;
@@ -119,7 +119,7 @@ public class AttemptPollingTest {
             // 创建需要重试的对象
             ProxyDemo2 proxyDemo2 = new ProxyDemo2();
             // 构建重试代理
-            AttemptBuilder.polling(proxyDemo2::plusStaticCount).endPointTry((context -> {
+            AttemptBuilder.polling(proxyDemo2::plusStaticCount).endPoint((context -> {
                 AttemptResult lastResult = context.getLastResult();
                 Integer retValue = (Integer) lastResult.getRetValue();
                 return retValue == 3;
@@ -138,7 +138,7 @@ public class AttemptPollingTest {
         // 构建重试代理
         AttemptBuilder.Polling<ProxyDemo2> pollingBuilder = new AttemptBuilder.Polling<>(proxyDemo2);
         ProxyDemo2 proxy = pollingBuilder
-                .endPointTry((context -> {
+                .endPoint((context -> {
                     AttemptResult lastResult = context.getLastResult();
                     Integer retValue = (Integer) lastResult.getRetValue();
                     return retValue == 100;
@@ -170,7 +170,7 @@ public class AttemptPollingTest {
         // 构建重试代理
         AttemptBuilder.Polling<ProxyDemo2> pollingBuilder = new AttemptBuilder.Polling<>(proxyDemo2);
         ProxyDemo2 proxy = pollingBuilder
-                .endPointTry((context -> {
+                .endPoint((context -> {
                     AttemptResult lastResult = context.getLastResult();
                     Integer retValue = (Integer) lastResult.getRetValue();
                     return retValue == 100;
@@ -201,7 +201,7 @@ public class AttemptPollingTest {
         // 构建重试代理
         AttemptBuilder.Polling<ProxyDemo2> pollingBuilder = new AttemptBuilder.Polling<>(proxyDemo2);
         ProxyDemo2 proxy = pollingBuilder
-                .endPointTry((context -> {
+                .endPoint((context -> {
                     AttemptResult lastResult = context.getLastResult();
                     Integer retValue = (Integer) lastResult.getRetValue();
                     return retValue == 100;

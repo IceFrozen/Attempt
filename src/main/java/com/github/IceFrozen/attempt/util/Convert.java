@@ -740,6 +740,10 @@ public class Convert {
         return charset.decode(data).toString();
     }
 
+    public static <T> T valueToType(Object value,  Class<T> resultType) {
+        return resultType.cast(value);
+    }
+
     /**
      * 数字金额大写转换 先写个完整的然后将如零拾替换成零
      *
