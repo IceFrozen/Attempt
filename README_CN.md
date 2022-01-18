@@ -189,18 +189,18 @@ public class TaskService {
     queryProgressStep:[0, 10, 10, 10, 20, 20, 20]
     ```
 
+## 性能
+JMH对比了 SpringRetry 和 Attempt的性能，代码参见[这里](src/test/java/com/github/IceFrozen/jmh/AttemptVsSpringRetry.java)
 
+Benchmark         |                                  Mode  |Cnt      |Score      |Error  |Units
+---|---|---|---|---|---
+IceFrozen.jmh.AttemptVsSpringRetry.testAttempt   |   avgt  | 10  |  210.878 ±  | 47.971  ns/op
+IceFrozen.jmh.AttemptVsSpringRetry.testSpringRetry|  avgt  | 10 | 17541.783 ± |1162.467 | ns/op
+
+![](docs/JMH.png)
 
 ## 高级
 
-更多的参见:[Wiki]((docs/README_WIKI_CN.md))
-
-## 自定义参数
-
-## 回退策略
-
-When retrying after a transient failure, it often helps to wait a bit before trying again, because (usually) the failure is caused by some problem that can be resolved only by waiting. If a RetryCallback fails, the RetryTemplate can pause execution according to the BackoffPolicy. The following listing shows the definition of the BackoffPolicy interface:
-
-
+更多的参见:[Wiki](docs/README_WIKI_CN.md)
 
 

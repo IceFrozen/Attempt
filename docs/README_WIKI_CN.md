@@ -1,3 +1,6 @@
+
+[**English docs**](./README_WIKI_EN.md)
+
 ## 简介
 
 Attempt是一个轻量级组件，为应用程序提供声明式重试支持，不仅如此，它还提供了轮询策略。使用Attempt，您可以轻松地轮询具有重试功能的内容。非spring和轻量级应用程序对于较少的依赖关系是友好的。
@@ -102,7 +105,7 @@ public class UserService {
 + 如果超时3（重试最大次数暂定为3次）次，那么直接报错，返回失败。
 + 如果超时没有超过3次（重试最大次数暂定为3次）在重试期间，网络恢复了，那么要要清除重试3次的历史，否则下次遇到超时的时候就会失败。
 
-![](docs/Attempt.png)
+![](./Attempt.png)
 
 如上图所示，Attempt 设置了轮询策略，当使用轮询策略的时候，在轮询期间会如果轮询过程中，出现异常，则会进入重试阶段。
 在重试阶段会累计重试次数，如果重试成功，则会继续进入轮询阶段，并且清空重试阶段的重试次数。
@@ -186,14 +189,18 @@ public class TaskService {
     queryProgressStep:[0, 10, 10, 10, 20, 20, 20]
     ```
 
+## 性能
+JMH对比了 SpringRetry 和 Attempt的性能，代码参见[这里](../src/test/java/com/github/IceFrozen/jmh/AttemptVsSpringRetry.java)
 
+Benchmark         |                                  Mode  |Cnt      |Score      |Error  |Units
+---|---|---|---|---|---
+IceFrozen.jmh.AttemptVsSpringRetry.testAttempt   |   avgt  | 10  |  210.878 ±  | 47.971  ns/op
+IceFrozen.jmh.AttemptVsSpringRetry.testSpringRetry|  avgt  | 10 | 17541.783 ± |1162.467 | ns/op
+
+![](./JMH.png)
 
 ## 高级
 
-## 自定义参数
-
-## 回退策略
-
-
+TODO 
 
 

@@ -26,7 +26,7 @@ public class AttemptVsSpringRetry {
 
     @Benchmark
     public void testAttempt() {
-        AttemptBuilder.retry(() -> proxyDemoAttempt.errorMethod()).noThrow();
+        AttemptBuilder.retry(() -> proxyDemoAttempt.errorMethod()).retryMax(300).noThrow();
     }
     @Benchmark
     public void testSpringRetry() throws Throwable {
@@ -40,7 +40,7 @@ public class AttemptVsSpringRetry {
         BackOffPolicy backOffPolicy =   new NoBackOffPolicy();
         retryTemplate.setBackOffPolicy(backOffPolicy);
         SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
-        retryPolicy.setMaxAttempts(3);
+        retryPolicy.setMaxAttempts(100);
         retryTemplate.setRetryPolicy(retryPolicy);
     }
 
