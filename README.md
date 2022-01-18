@@ -99,7 +99,7 @@ public class UserService {
 ```
 
 
-### 轮询策略
+### Polling Strategy
 
 Suppose there is such a case, you upload a task, the server does not support callback or message queue to notify you whether the task is finish, then you need a polling strategy to know the status of the task.
 For stability, you need to meet the following characteristics:：
