@@ -1,3 +1,5 @@
+[**中文文档**](./README_CN.md)
+
 ## Introduction
 
 **Attempt** is a lightweight component provides declarative retry support for applications,  not only but a polling strategy.  With Attempt, you can easily poll for something with retry functionality. Non-spring and lightweight applications are friendly for a fewer dependencies.
@@ -95,12 +97,4 @@ public class UserService {
 }
 
 ```
-
-
-## Backoff Policies
-
-When retrying after a transient failure, it often helps to wait a bit before trying again, because (usually) the failure is caused by some problem that can be resolved only by waiting. If a RetryCallback fails, the RetryTemplate can pause execution according to the BackoffPolicy. The following listing shows the definition of the BackoffPolicy interface:
-
-
-
 

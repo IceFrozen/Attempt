@@ -12,48 +12,78 @@ import java.util.stream.Stream;
 public class TaskService {
     public List<Integer> history = new ArrayList<>();
     public Integer nowProgress = 0;             // process
-    public Integer queryProgressCount = 0;      // queryProgress invoke time
+    public Integer queryProgressStep = 0;      // queryProgress invoke time
     // 需要抛出错误的 Progress
     public List<Integer> errorThrowOrder = new ArrayList<>();
 
     public Integer queryProgress () {
         history.add(nowProgress);
-        if(errorThrowOrder.contains(queryProgressCount)) {
+        queryProgressStep++;
+        if(errorThrowOrder.contains(queryProgressStep)) {
             throw new RuntimeException("timeout exception:" + nowProgress);
         }
         SecurityThreadWaitSleeper.sleep(500);
         nowProgress +=10;
-        queryProgressCount++;
+
         return nowProgress;
     }
 
-    public static void main(String[] args) {
+    public static void example1(String[] args) {
+        Integer retryCount = 3;
         TaskService taskService = new TaskService();
         // 2 3 3 count will throw RuntimeException
         taskService.errorThrowOrder = Stream.of(2, 3, 4).collect(Collectors.toList());
         // poll builder
         AttemptBuilder.Polling<TaskService> taskServicePollBuilder = new AttemptBuilder.Polling<>(taskService);
         // set end point
-        // 设置轮询停止条件
         TaskService taskServicePoll = taskServicePollBuilder.endPoint(context -> {
-            // 获取上次结果
+            // get last result
             AttemptResult result = context.getLastResult();
             if (result.isSuccess()) {
-                Integer progress = (Integer) result.getRetValue();
-                return progress < 100;      //  progress < 100 poll continue
+                Integer progress = result.getRetValue(Integer.class);
+                return progress == 100;      //  progress < 100 poll continue
             }
             return false;
         })
-                .maxPollCount(100)
-                .retryMax(3)      // retry max
-                .registerExceptionRetryTime(RuntimeException.class, 3)
+         .maxPollCount(100)      // max poll times
+         .registerExceptionRetryTime(RuntimeException.class, retryCount)
+         .build();
+
+        try {
+            Integer integer = taskServicePoll.queryProgress();
+        }catch (RuntimeException e) {
+            System.out.println(taskService.queryProgressStep);//
+            System.out.println(taskService.history);//
+        }
+    }
+
+    public static void main(String[] args) {
+        Integer retryCount = 3;
+        TaskService taskService = new TaskService();
+        // 2 3 3 count will throw RuntimeException
+        taskService.errorThrowOrder = Stream.of(2, 3, 5, 6, 7).collect(Collectors.toList());
+        // poll builder
+        AttemptBuilder.Polling<TaskService> taskServicePollBuilder = new AttemptBuilder.Polling<>(taskService);
+        // set end point
+        TaskService taskServicePoll = taskServicePollBuilder.endPoint(context -> {
+            // get last result
+            AttemptResult result = context.getLastResult();
+            if (result.isSuccess()) {
+                Integer progress = result.getRetValue(Integer.class);
+                return progress == 100;      //  progress < 100 poll continue
+            }
+            return false;
+        })
+                .maxPollCount(100)      // max poll times
+                .registerExceptionRetryTime(RuntimeException.class, retryCount)
                 .build();
 
-
-        Integer integer = taskServicePoll.queryProgress();
-        System.out.println(integer);
-        System.out.println(taskService.queryProgressCount);
-
+        try {
+            Integer integer = taskServicePoll.queryProgress();
+        }catch (RuntimeException e) {
+            System.out.println("queryProgressStep:" + taskService.queryProgressStep);//
+            System.out.println("history:" + taskService.history);//
+        }
     }
 
 }

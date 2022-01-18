@@ -1,9 +1,13 @@
+
+[**English docs**](./README.md)
+
 ## 简介
 
 Attempt是一个轻量级组件，为应用程序提供声明式重试支持，不仅如此，它还提供了轮询策略。使用Attempt，您可以轻松地轮询具有重试功能的内容。非spring和轻量级应用程序对于较少的依赖关系是友好的。
 
 ## 教程
 本节将快速介绍如何使用Attempt， 我们将从一个方法调用和一个静态调用的例子开始。
+
 ###  方法调用
 
 + 首先，定义基础类
@@ -109,40 +113,87 @@ public class UserService {
 样例如下：
 
 ```java
-public class TaskService { 
-  public List<Integer> history = new ArrayList<>();
-  public Integer nowProgress = 0;
-  // 需要抛出错误的 Progress
-  public List<Integer> errorThrowOrder = new ArrayList<>();
+public class TaskService {
+    public List<Integer> history = new ArrayList<>();
+    public Integer nowProgress = 0;             // process
+    public Integer queryProgressStep = 0;      // queryProgress invoke time
+    //  Progress step need to throw exception
+    public List<Integer> errorThrowOrder = new ArrayList<>();
 
-
-
-  public Integer queryProgress () {
-        nowProgress +=10;
-        if(errorThrowOrder.contains(nowProgress)) {
-           throw new RunntionException();
+    public Integer queryProgress () {
+        history.add(nowProgress);
+        queryProgressStep++;
+        if(errorThrowOrder.contains(queryProgressStep)) {
+            throw new RuntimeException("timeout exception:" + nowProgress);
         }
-
+        SecurityThreadWaitSleeper.sleep(500);
+        nowProgress +=10;
 
         return nowProgress;
     }
-    
+
+    public static void main(String[] args) {
+        Integer retryCount = 3;
+        TaskService taskService = new TaskService();
+        // 2 3 3 count will throw RuntimeException
+        taskService.errorThrowOrder = Stream.of(2, 3, 4).collect(Collectors.toList());
+        // poll builder
+        AttemptBuilder.Polling<TaskService> taskServicePollBuilder = new AttemptBuilder.Polling<>(taskService);
+        // set end point
+        TaskService taskServicePoll = taskServicePollBuilder.endPoint(context -> {
+            // get last result
+            AttemptResult result = context.getLastResult();
+            if (result.isSuccess()) {
+                Integer progress = result.getRetValue(Integer.class);
+                return progress == 100;      //  progress < 100 poll continue
+            }
+            return false;
+        })
+         .maxPollCount(100)      // max poll times
+         .registerExceptionRetryTime(RuntimeException.class, retryCount)   // the exception that should entry retry stage
+         .build();
+
+        try {
+            Integer integer = taskServicePoll.queryProgress();
+        }catch (RuntimeException e) {
+            System.out.println("queryProgressStep:" + taskService.queryProgressStep); //
+            System.out.println("history:" + taskService.history);//
+        }
+    }
+
 }
-
-
-      
-
-
-
-
-
 
 ```
 
++ 可以看到，当我们设定（2, 3, 4）次调用将会抛出异常， 遇到异常 RuntimeException.class, 重试3次的会后得到结果。
+    ```
+    queryProgressStep:4
+    history:[0, 10, 10, 10]
+    ```
+调用了4次，进度在10中。也就是说 当调用次数为2，3，4 连续三次调用的时候，抛出异常。
+
++ 当我们设定 遇到异常 RuntimeException.class, 重试4次。但是我们说很设定了2，3，4 连续三次调用的时候才会抛出异常，因此调用成功返回100
+    ```java
+    // ......
+    Integer retryCount = 4;
+    // ......
+    ```
++ 当我们设定异常序列为2，3，5，6，7的时候，由于23不连续，因此在23阶段重试后会继续调用，直到遇到567三次连续异常，才会结束。
+    ```java
+      Integer retryCount = 3;
+      taskService.errorThrowOrder = Stream.of(2, 3, 5,6,7).collect(Collectors.toList());
+    ```
+    返回结果
+    ```
+    queryProgressStep:7
+    queryProgressStep:[0, 10, 10, 10, 20, 20, 20]
+    ```
 
 
 
+## 高级
 
+更多的参见:[Wiki]((docs/README_WIKI_CN.md))
 
 ## 自定义参数
 
