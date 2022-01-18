@@ -25,6 +25,13 @@ public class AttemptBuilder {
             originInstance = t;
         }
 
+        public Attempt<T> attempt() {
+            if (this.attempt == null) {
+                this.build();
+            }
+            return this.attempt;
+        }
+
         public T build() {
             if (this.endPointTry() == null) {
                 throw new AttemptException("Polling must set endpoint!");

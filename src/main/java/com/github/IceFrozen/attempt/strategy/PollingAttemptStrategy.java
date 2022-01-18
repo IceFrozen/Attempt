@@ -19,7 +19,15 @@ public class PollingAttemptStrategy extends RetryAttemptStrategy {
 
     @Override
     public boolean isEnd(AttemptContext context) {
-        return properties.retryMax() > 0 && this.record.getExecuteCount() >= properties.retryMax();
+        boolean isMaxPollEnd = false;
+        boolean isRetryEnd = false;
+        if (properties.retryMax() > 0) {
+            isRetryEnd = record.getExceptionCount() >= properties.retryMax();
+        }
+        if (properties.maxPollCount() > 0) {
+            isMaxPollEnd = record.getExecuteCount() >= properties.maxPollCount();
+        }
+        return isRetryEnd || isMaxPollEnd;
     }
 
     @Override
