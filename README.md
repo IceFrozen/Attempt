@@ -20,7 +20,7 @@ This section provides a quick introduction to getting started with Attempt. It i
 
 ### maven dependency
 
-```
+```xml
 <dependency>
     <groupId>io.github.icefrozen</groupId>
     <artifactId>Attempt</artifactId>

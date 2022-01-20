@@ -19,7 +19,7 @@ Attempt是一个轻量级组件，为应用程序提供声明式重试支持，�
 
 ### 下载依赖 
 
-```
+```xml
 <dependency>
     <groupId>io.github.icefrozen</groupId>
     <artifactId>Attempt</artifactId>
