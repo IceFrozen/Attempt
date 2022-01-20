@@ -1,8 +1,8 @@
 package com.github.IceFrozen.example;
 
-import com.github.IceFrozen.attempt.AttemptBuilder;
-import com.github.IceFrozen.attempt.AttemptResult;
-import com.github.IceFrozen.attempt.util.SecurityThreadWaitSleeper;
+import io.github.icefrozen.attempt.AttemptBuilder;
+import io.github.icefrozen.attempt.AttemptResult;
+import io.github.icefrozen.attempt.util.SecurityThreadWaitSleeper;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.github.IceFrozen.jmh;
 
-import com.github.IceFrozen.attempt.AttemptBuilder;
-import com.github.IceFrozen.attempt.testBean.ProxyDemo2;
+import io.github.icefrozen.attempt.AttemptBuilder;
+import io.github.icefrozen.attempt.testBean.ProxyDemo2;
 
 import org.openjdk.jmh.annotations.*;
 import org.springframework.retry.RetryCallback;

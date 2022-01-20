@@ -1,6 +1,6 @@
 package com.github.IceFrozen.example;
 
-import com.github.IceFrozen.attempt.AttemptBuilder;
+import io.github.icefrozen.attempt.AttemptBuilder;
 
 public class UserService {
     public int count = 0;
