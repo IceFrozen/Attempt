@@ -162,17 +162,19 @@
             </distributionManagement>
             <build>
                 <plugins>
-                    <!-- Source -->
+                    <!-- doc -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>3.2.1</version>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <configuration>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
                         <executions>
                             <execution>
-                                <id>oss</id>
                                 <phase>package</phase>
                                 <goals>
-                                    <goal>jar-no-fork</goal>
+                                    <goal>jar</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -197,7 +199,7 @@
                         <version>1.6</version>
                         <executions>
                             <execution>
-                                <id>oss</id>
+                                <id>ossrh</id>
                                 <phase>verify</phase>
                                 <goals>
                                     <goal>sign</goal>
@@ -211,8 +213,8 @@
                         <version>1.6.8</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <serverId>oss</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                             <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
