@@ -191,7 +191,7 @@ Called 4 times, progress is in 10. That is to say, when the number of calls is 2
 
 
 ## Performance VS SpringRetry
-code [here](../src/test/java/com/github/IceFrozen/jmh/AttemptVsSpringRetry.java)
+code [here](../src/test/java/io/github/icefrozen/jmh/AttemptVsSpringRetry.java)
 
 Benchmark         |                                  Mode  |Cnt      |Score      |Error  |Units
 ---|---|---|---|---|---

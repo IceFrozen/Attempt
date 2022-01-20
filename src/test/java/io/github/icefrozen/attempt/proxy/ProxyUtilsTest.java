@@ -1,6 +1,5 @@
 package io.github.icefrozen.attempt.proxy;
 
-import com.github.IceFrozen.attempt.testBean.*;
 import io.github.icefrozen.attempt.testBean.*;
 import io.github.icefrozen.attempt.util.Convert;
 import org.apache.commons.lang3.StringUtils;

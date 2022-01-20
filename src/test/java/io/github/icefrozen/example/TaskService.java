@@ -1,4 +1,4 @@
-package com.github.IceFrozen.example;
+package io.github.icefrozen.example;
 
 import io.github.icefrozen.attempt.AttemptBuilder;
 import io.github.icefrozen.attempt.AttemptResult;

@@ -190,7 +190,7 @@ public class TaskService {
     ```
 
 ## 性能
-JMH对比了 SpringRetry 和 Attempt的性能，代码参见[这里](../src/test/java/com/github/IceFrozen/jmh/AttemptVsSpringRetry.java)
+JMH对比了 SpringRetry 和 Attempt的性能，代码参见[这里](../src/test/java/io/github/icefrozen/jmh/AttemptVsSpringRetry.java)
 
 Benchmark         |                                  Mode  |Cnt      |Score      |Error  |Units
 ---|---|---|---|---|---

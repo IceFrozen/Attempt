@@ -1,4 +1,4 @@
-package com.github.IceFrozen.jmh;
+package io.github.icefrozen.jmh;
 
 import io.github.icefrozen.attempt.AttemptBuilder;
 import io.github.icefrozen.attempt.testBean.ProxyDemo2;

@@ -1,4 +1,4 @@
-package com.github.IceFrozen.example;
+package io.github.icefrozen.example;
 
 public class User {
     private int id;
