@@ -1,3 +1,12 @@
+<p align="center">
+    <a target="_blank" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">
+		<img src="https://img.shields.io/badge/JDK-8+-green.svg" />
+	</a>
+	<a target="_blank" href="https://license.coscl.org.cn/MulanPSL2/">
+    	<img src="https://img.shields.io/:license-MIT-blue.svg" />
+    </a>
+</p>
+
 
 [**English docs**](./README.md)
 
@@ -204,10 +213,15 @@ JMH对比了 SpringRetry 和 Attempt的性能，代码参见[这里](src/test/ja
 
 Benchmark         |                                  Mode  |Cnt      |Score      |Error  |Units
 ---|---|---|---|---|---
-IceFrozen.jmh.AttemptVsSpringRetry.testAttempt   |   avgt  | 10  |  210.878 ±  | 47.971 |  ns/op
-IceFrozen.jmh.AttemptVsSpringRetry.testSpringRetry|  avgt  | 10 | 17541.783 ± |1162.467 | ns/op
+AttemptVsSpringRetry.testAttempt   |   avgt  | 10   |  165.921 ± |    26.558  |ns/op
+AttemptVsSpringRetry.testGuavaRetry  | avgt |  10 | 909259.747 ± |323278.426 | ns/op
+AttemptVsSpringRetry.testSpringRetry  |avgt|   10 |  50681.819 ±  | 2848.606  |ns/op
 
 ![](docs/JMH.png)
+
+## 作者
+
+![](./docs/gongzhonghao.png)
 
 ## 高级
 
