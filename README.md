@@ -87,7 +87,10 @@ public class UserService {
 }
 ```
 As we see, when we execute the userServiceAttempt's queryUser method, the userServiceAttempt will be automatically retried three times. After that, the exception has been thrown. 
-AttemptBuilder can make the method in a proxy object to retries when the exception has been thrown automatically? How do we assign retry to static methods?
+
+AttemptBuilder can make the method in a proxy object to retries when the exception has been thrown automatically? 
+
+How do we assign retry to static methods?
 
 ## a static method call example
 
@@ -121,7 +124,8 @@ public class UserService {
 ### Polling Strategy
 
 Suppose there is such a case, you upload a task, the server does not support callback or message queue to notify you whether the task is finish, then you need a polling strategy to know the status of the task.
-For stability, you need to meet the following characteristics:：
+For stability, you need to meet the following characteristics:
+
 + if the process of querying the progress fails, then in order for the task to continue, it must be retried, for example, a call timeout occurs.
 + if the call fails after retries 3 times (the maximum number of retries is tentatively set to 3 times), then report an error directly and return failure.
 + if the network resumes trial operation at this stage, then clear the history three times and continue to poll the call.
