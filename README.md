@@ -4,11 +4,19 @@
 
 **Attempt** is a lightweight component provides declarative retry support for applications,  not only but a polling strategy.  With Attempt, you can easily poll for something with retry functionality. Non-spring and lightweight applications are friendly for a fewer dependencies.
 
-
-
-
 ## Quick Start
 This section provides a quick introduction to getting started with Attempt. It includes a static method call example, and an object call example.
+
+### maven dependency
+
+```
+<dependency>
+    <groupId>io.github.icefrozen</groupId>
+    <artifactId>Attempt</artifactId>
+    <version>0.1.0</version>
+</dependency>
+
+```
 
 ###  An Object Call example
 

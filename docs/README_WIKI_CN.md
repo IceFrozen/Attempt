@@ -8,6 +8,17 @@ Attempt是一个轻量级组件，为应用程序提供声明式重试支持，�
 ## 教程
 本节将快速介绍如何使用Attempt， 我们将从一个方法调用和一个静态调用的例子开始。
 
+### 下载依赖 
+
+```
+<dependency>
+    <groupId>io.github.icefrozen</groupId>
+    <artifactId>Attempt</artifactId>
+    <version>0.1.0</version>
+</dependency>
+
+```
+
 ###  方法调用
 
 + 首先，定义基础类
