@@ -6,11 +6,18 @@
 
     <groupId>com.github.IceFrozen</groupId>
     <artifactId>Attempt</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
 
     <name>Attempt</name>
-    <description>com.github.IceFrozen attempt</description>
-    <url>https://github.com/looly/hutool</url>
+
+    <description>
+        Attempt is a lightweight component provides declarative retry support for applications, not only but a polling
+        strategy.
+        With Attempt, you can easily poll for something with retry functionality.
+        Non-spring and lightweight applications are friendly for a fewer dependencies.
+    </description>
+
+    <url>https://github.com/IceFrozen/Attempt</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,7 +33,7 @@
 
     <issueManagement>
         <system>Github Issue</system>
-        <url>TODO</url>
+        <url>https://github.com/IceFrozen/Attempt/issues</url>
     </issueManagement>
 
     <licenses>
@@ -40,14 +47,17 @@
         <developer>
             <name>Jason Lee</name>
             <email>taozi031@163.com</email>
+            <organization>https://github.com/IceFrozen</organization>
+            <url>https://icefrozen.github.io/</url>
+            <timezone>+8</timezone>
         </developer>
     </developers>
 
-<!--    <scm>-->
-<!--        <connection>scm:git@github.com:looly/hutool.git</connection>-->
-<!--        <developerConnection>scm:git@github.com:looly/hutool.git</developerConnection>-->
-<!--        <url>git@github.com:looly/hutool.git</url>-->
-<!--    </scm>-->
+        <scm>
+            <connection>scm:https://github.com/IceFrozen/Attempt</connection>
+            <developerConnection>scm:https://github.com/IceFrozen</developerConnection>
+            <url>https://github.com/IceFrozen/Attempt.git</url>
+        </scm>
 
 
     <dependencies>
@@ -55,7 +65,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
-
         </dependency>
 
         <dependency>
@@ -85,12 +94,14 @@
             <version>${jmh.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-generator-annprocess</artifactId>
             <version>${jmh.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>
@@ -105,7 +116,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 
 
     <build>
@@ -136,6 +146,80 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>oss</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                </snapshotRepository>
+                <repository>
+                    <id>oss</id>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+            <build>
+                <plugins>
+                    <!-- Source -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>oss</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- 测试覆盖度 -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>cobertura-maven-plugin</artifactId>
+                        <version>2.7</version>
+                        <configuration>
+                            <formats>
+                                <format>html</format>
+                                <format>xml</format>
+                            </formats>
+                            <check />
+                        </configuration>
+                    </plugin>
+                    <!-- Gpg Signature -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>oss</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.8</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>oss</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 
 </project>
