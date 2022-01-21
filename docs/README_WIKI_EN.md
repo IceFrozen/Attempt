@@ -1,5 +1,5 @@
 <p align="center">
-    <a target="_blank" href="https://search.maven.org/artifact/io.github.icefrozen/Attemptl">
+    <a target="_blank" href="https://search.maven.org/artifact/io.github.icefrozen/Attempt">
 		<img src="https://img.shields.io/maven-central/v/io.github.icefrozen/Attempt.svg?label=Maven%20Central" />
 	</a>
     <a target="_blank" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">
