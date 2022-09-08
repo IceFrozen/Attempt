@@ -38,7 +38,7 @@ Attempt是一个轻量级组件，为应用程序提供声明式重试支持，�
 <dependency>
     <groupId>io.github.icefrozen</groupId>
     <artifactId>Attempt</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
 </dependency>
 
 ```
